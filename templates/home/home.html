@@ -1,0 +1,19 @@
+{% extends "core/base_vue.html" %}
+
+{% block header %}
+<title>HappySchool : home</title>
+
+{% endblock %}
+{% block content %}
+{% load render_bundle from webpack_loader %}
+
+<script>
+    const current_app = "home";
+    const settings = JSON.parse('{{ settings|safe }}');;
+    const menu = {{ menu|safe }};
+</script>
+<div id="vue-app"></div>
+
+{% render_bundle "home" %}
+
+{% endblock %}
