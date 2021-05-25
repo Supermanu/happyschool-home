@@ -17,18 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with HappySchool.  If not, see <http://www.gnu.org/licenses/>.
 
-from rest_framework import serializers
+from django.contrib import admin
+from .models import HomeNewsModel
 
-from .models import HomeSettingsModel, HomeNewsModel
-
-
-class HomeSettingsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = HomeSettingsModel
-        fields = '__all__'
-
-
-class HomeNewsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = HomeNewsModel
-        fields = '__all__'
+admin.site.register(HomeNewsModel)

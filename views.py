@@ -23,16 +23,16 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
-from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 
-from core.views import BaseFilters, BaseModelViewSet, get_app_settings
+from core.views import BaseFilters, get_app_settings
 from core.utilities import get_menu
 
-from .models import HomeSettingsModel
-from .serializers import HomeSettingsSerializer
+from .models import HomeSettingsModel, HomeNewsModel
+from .serializers import HomeSettingsSerializer, HomeNewsSerializer
 
 
-def get_menu_entry(active_app, user):
+def get_menu_entry(active_app, request):
     # if not user.has_perm("home.view_home"):
     #     return {}
     return {
@@ -57,7 +57,7 @@ class HomeView(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context['menu'] = json.dumps(get_menu(self.request.user, "home"))
+        context['menu'] = json.dumps(get_menu(self.request, "home"))
         context['filters'] = json.dumps(self.filters)
         context['settings'] = json.dumps((HomeSettingsSerializer(get_settings()).data))
 
@@ -72,9 +72,9 @@ class HomeView(
         #filter_overrides = BaseFilters.Meta.filter_overrides
 
 
-#class HomeViewSet(BaseModelViewSet):
-    #queryset = HomeModel.objects.all()
-    #serializer_class = HomeSerializer
-    #permission_classes = (IsAuthenticated, DjangoModelPermissions,)
-    #filter_class = HomeFilter
-    #ordering_fields = []
+class HomeNewsViewSet(ModelViewSet):
+    queryset = HomeNewsModel.objects.all()
+    serializer_class = HomeNewsSerializer
+    permission_classes = (IsAuthenticated,)
+    # filter_class = HomeFilter
+    ordering_fields = ["datetime_update"]

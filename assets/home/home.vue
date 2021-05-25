@@ -26,54 +26,16 @@
                 </b-col>
             </b-row>
             <b-row>
-                <b-col
-                    cols="12"
-                    md="6"
-                >
-                    <div class="text-center">
-                        <h3>Vers les autres plateformes</h3>
-                        <a
-                            href="https://eplateforme.isln.be/"
-                            target="_blank"
-                            rel="noreferrer noopener"
-                        >
-                            <img
-                                src="/static/img/logo_moodle.png"
-                                alt="Moodle logo"
-                            >
-                        </a>
-                        <a
-                            href="https://grr.isln.be/"
-                            target="_blank"
-                            rel="noreferrer noopener"
-                        >
-                            <img
-                                src="/static/img/logo_grr.png"
-                                alt="GRR logo"
-                            >
-                        </a>
-                        <a
-                            href="https://isln.it-school.be/"
-                            target="_blank"
-                            rel="noreferrer noopener"
-                        >
-                            <img
-                                width="320"
-                                src="https://isln.it-school.be/bundles/itschoolwebadmin/itschool/media/logo-it-school.png"
-                                alt="GRR logo"
-                            >
-                        </a>
-                        <a
-                            href="https://ajax.webuntis.com/WebUntis/?school=Institut+Saint-Louis#/basic/login"
-                            target="_blank"
-                            rel="noreferrer noopener"
-                        >
-                            <img
-                                src="/static/img/logo_untis.png"
-                                alt="WebUntis logo"
-                            >
-                        </a>
-                    </div>
+                <b-col cols="8">
+                    <b-row>
+                        <birthdays people="responsible" />
+                        <birthdays people="student" :teaching="teaching" />
+                    </b-row>
+                    <news
+                        v-for="n in news"
+                        :key="n.id"
+                        :news="n"
+                    />
                 </b-col>
                 <b-col>
                     <b-card
@@ -97,14 +59,17 @@
                             </a>
                         </b-card-body>
                     </b-card>
-                    <b-card no-body>
+                    <b-card
+                        no-body
+                        class="mb-2"
+                    >
                         <b-card-body>
                             <b-icon
                                 icon="question-circle"
                                 class="question"
                                 variant="primary"
                             />
-                            Quelles sont les plateformes utilisées ?
+                            Plateformes : À qui s'adresser en cas de besoin ?
                             <br>
                             <a
                                 href="https://view.genial.ly/5ffdaf1608ab8e3755b3b9b9/presentation-isln-plateformes"
@@ -115,6 +80,94 @@
                             </a>
                         </b-card-body>
                     </b-card>
+                    <b-card no-body>
+                        <b-card-body>
+                            <b-icon
+                                icon="question-circle"
+                                class="question"
+                                variant="primary"
+                            />
+                            Les différents organes de l'école.
+                            <br>
+                            <a
+                                href="https://view.genial.ly/5ffdaf1608ab8e3755b3b9b9/presentation-isln-plateformes"
+                                target="_blank"
+                                rel="noreferrer noopener"
+                            >
+                                <b-icon icon="link45deg" />Les différents organes de l'école
+                            </a>
+                        </b-card-body>
+                    </b-card>
+                </b-col>
+            </b-row>
+            <b-row class="text-center">
+                <b-col
+                    cols="12"
+                    md="3"
+                >
+                    <div class="px-5 px-md-0">
+                        <a
+                            href="https://eplateforme.isln.be/"
+                            target="_blank"
+                            rel="noreferrer noopener"
+                        >
+                            <img
+                                src="/static/img/logo_moodle.png"
+                                alt="Moodle logo"
+                                class="w-100"
+                            >
+                        </a>
+                    </div>
+                </b-col>
+                <b-col
+                    cols="12"
+                    md="3"
+                >
+                    <div class="px-5 px-md-0">
+                        <a
+                            href="https://ajax.webuntis.com/WebUntis/?school=Institut+Saint-Louis#/basic/login"
+                            target="_blank"
+                            rel="noreferrer noopener"
+                        >
+                            <img
+                                src="/static/img/logo_untis.png"
+                                alt="WebUntis logo"
+                                class="w-100"
+                            >
+                        </a>
+                    </div>
+                </b-col>
+                <b-col
+                    cols="12"
+                    md="3"
+                >
+                    <div class="px-5 px-md-0">
+                        <a
+                            href="https://isln.it-school.be/"
+                            target="_blank"
+                            rel="noreferrer noopener"
+                        >
+                            <img
+                                src="/static/img/logo_it-school.png"
+                                alt="it-school logo"
+                                class="w-100"
+                            >
+                        </a>
+                    </div>
+                </b-col>
+                <b-col
+                    cols="12"
+                    md="3"
+                >
+                    <div class="nologolink px-5 px-md-0">
+                        <a
+                            href="https://pythomium.net/bul/sl_namur.html"
+                            target="_blank"
+                            rel="noreferrer noopener"
+                        >
+                            BulréZo
+                        </a>
+                    </div>
                 </b-col>
             </b-row>
         </b-container>
@@ -126,14 +179,41 @@ import Vue from "vue";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
+import axios from "axios";
+
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+
+import News from "./news.vue";
+import Birthdays from "./birthday.vue";
 
 export default {
     data: function () {
         return {
+            news: []
         };
     },
+    computed: {
+        teaching: function () {
+            // eslint-disable-next-line no-undef
+            const user_teaching = user_properties.teaching;
+            if (user_teaching.length > 1 || user_teaching.length == 0) {
+                return "";
+            } else {
+                return user_teaching[0];
+            }
+        }
+    },
+    mounted: function () {
+        axios.get("/home/api/news/")
+            .then(resp => {
+                this.news = resp.data.results;
+            });
+    },
+    components: {
+        News,
+        Birthdays,
+    }
 };
 </script>
 
@@ -141,5 +221,14 @@ export default {
 .question {
     width: 1.5em;
     height: 1.5em;
+}
+
+/* a img {
+    width: 100%;
+} */
+
+.nologolink {
+    font-size: 3rem;
+    text-decoration: underline;
 }
 </style>

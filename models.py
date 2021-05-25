@@ -27,5 +27,9 @@ class HomeSettingsModel(models.Model):
     teachings = models.ManyToManyField(TeachingModel, default=None)
     layout = JSONField("Layout of the home page", null=True)
 
-#class HomeModel:
-    #pass
+
+class HomeNewsModel(models.Model):
+    title = models.CharField(max_length=100)
+    text = models.TextField()
+    datetime_creation = models.DateTimeField(auto_now_add=True)
+    datetime_update = models.DateTimeField(auto_now=True)

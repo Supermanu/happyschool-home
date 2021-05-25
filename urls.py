@@ -30,6 +30,6 @@ urlpatterns = [
 ]
 
 router = DefaultRouter()
-#router.register(r'api/home', views.HomeViewSet)
+router.register(r'api/news', views.HomeNewsViewSet)
 
 urlpatterns += router.urls
