@@ -29,7 +29,10 @@
                 <b-col cols="8">
                     <b-row>
                         <birthdays people="responsible" />
-                        <birthdays people="student" :teaching="teaching" />
+                        <birthdays
+                            people="student"
+                            :teaching="teaching"
+                        />
                     </b-row>
                     <news
                         v-for="n in news"
@@ -161,7 +164,7 @@
                 >
                     <div class="nologolink px-5 px-md-0">
                         <a
-                            href="https://pythomium.net/bul/sl_namur.html"
+                            href="http://pythomium.net/bul/sl_namur.html"
                             target="_blank"
                             rel="noreferrer noopener"
                         >

@@ -24,6 +24,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
+from rest_framework.filters import OrderingFilter
 
 from core.views import BaseFilters, get_app_settings
 from core.utilities import get_menu
@@ -76,5 +77,6 @@ class HomeNewsViewSet(ModelViewSet):
     queryset = HomeNewsModel.objects.all()
     serializer_class = HomeNewsSerializer
     permission_classes = (IsAuthenticated,)
-    # filter_class = HomeFilter
-    ordering_fields = ["datetime_update"]
+    filter_backends = [OrderingFilter]
+    ordering_fields = ["pinned", "datetime_update"]
+    ordering = ["-pinned"]

@@ -19,10 +19,16 @@
 
 <template>
     <div>
-        <b-card class="mb-1">
+        <b-card
+            :class="`p-1 mb-1 ${news.pinned ? 'pinned': ''}`"
+            no-body
+        >
             <b-card-title>
                 {{ news.title }}
             </b-card-title>
+            <b-card-sub-title>
+                {{ datetime }}
+            </b-card-sub-title>
             <b-card-body class="text-justify">
                 <span v-html="news.text" />
             </b-card-body>
@@ -31,6 +37,9 @@
 </template>
 
 <script>
+import Moment from "moment";
+Moment.locale("fr");
+
 export default {
     props: {
         news: {
@@ -42,6 +51,17 @@ export default {
                 };
             }
         }
+    },
+    computed: {
+        datetime: function () {
+            return Moment(this.news.datetime_update).calendar();
+        }
     }
 };
 </script>
+
+<style>
+.pinned {
+    border-color: gold;
+}
+</style>

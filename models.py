@@ -31,5 +31,6 @@ class HomeSettingsModel(models.Model):
 class HomeNewsModel(models.Model):
     title = models.CharField(max_length=100)
     text = models.TextField()
+    pinned = models.BooleanField(default=False)
     datetime_creation = models.DateTimeField(auto_now_add=True)
     datetime_update = models.DateTimeField(auto_now=True)
