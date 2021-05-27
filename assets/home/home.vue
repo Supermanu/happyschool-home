@@ -21,11 +21,6 @@
     <div>
         <b-container>
             <b-row>
-                <b-col>
-                    <h1>Bienvenue sur HappySchool</h1>
-                </b-col>
-            </b-row>
-            <b-row>
                 <b-col cols="8">
                     <b-row>
                         <birthdays people="responsible" />
@@ -128,6 +123,24 @@
                 >
                     <div class="px-5 px-md-0">
                         <a
+                            href="http://pythomium.net/bul/sl_namur.html"
+                            target="_blank"
+                            rel="noreferrer noopener"
+                        >
+                            <img
+                                src="/static/img/logo_bulrezo.png"
+                                alt="bulrézo logo"
+                                class="w-100"
+                            >
+                        </a>
+                    </div>
+                </b-col>
+                <b-col
+                    cols="12"
+                    md="3"
+                >
+                    <div class="px-5 px-md-0">
+                        <a
                             href="https://ajax.webuntis.com/WebUntis/?school=Institut+Saint-Louis#/basic/login"
                             target="_blank"
                             rel="noreferrer noopener"
@@ -155,20 +168,6 @@
                                 alt="it-school logo"
                                 class="w-100"
                             >
-                        </a>
-                    </div>
-                </b-col>
-                <b-col
-                    cols="12"
-                    md="3"
-                >
-                    <div class="nologolink px-5 px-md-0">
-                        <a
-                            href="http://pythomium.net/bul/sl_namur.html"
-                            target="_blank"
-                            rel="noreferrer noopener"
-                        >
-                            BulréZo
                         </a>
                     </div>
                 </b-col>
