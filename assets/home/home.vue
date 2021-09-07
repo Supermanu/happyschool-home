@@ -21,7 +21,10 @@
     <div>
         <b-container>
             <b-row>
-                <b-col cols="12" md="8">
+                <b-col
+                    cols="12"
+                    md="8"
+                >
                     <b-row>
                         <birthdays people="responsible" />
                         <birthdays
@@ -35,7 +38,10 @@
                         :news="n"
                     />
                 </b-col>
-                <b-col>
+                <b-col
+                    cols="12"
+                    md="4"
+                >
                     <emails />
                     <b-card
                         no-body
