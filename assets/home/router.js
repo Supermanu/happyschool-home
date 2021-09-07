@@ -23,6 +23,7 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 import Home from "./home.vue";
+import Email from "./email.vue";
 
 export default new VueRouter({
     routes: [
@@ -30,5 +31,10 @@ export default new VueRouter({
             path: "/",
             component: Home,
         },
+        {
+            path: "/email/:id/",
+            component: Email,
+            props: true,
+        }
     ]
 });

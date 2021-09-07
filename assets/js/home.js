@@ -34,8 +34,8 @@ new Vue({
     template:`
     <div>
         <app-menu :menu-info="menuInfo"></app-menu>
-            <transition :name="transitionName" mode="out-in">
-        <router-view></router-view>
+        <transition :name="transitionName" mode="out-in">
+            <router-view></router-view>
         </transition>
     </div>`,
     mounted: function () {

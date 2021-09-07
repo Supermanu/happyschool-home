@@ -21,7 +21,7 @@
     <div>
         <b-container>
             <b-row>
-                <b-col cols="8">
+                <b-col cols="12" md="8">
                     <b-row>
                         <birthdays people="responsible" />
                         <birthdays
@@ -36,6 +36,7 @@
                     />
                 </b-col>
                 <b-col>
+                    <emails />
                     <b-card
                         no-body
                         class="mb-2"
@@ -85,10 +86,8 @@
                                 class="question"
                                 variant="primary"
                             />
-                            Les différents organes de l'école.
-                            <br>
                             <a
-                                href="https://view.genial.ly/5ffdaf1608ab8e3755b3b9b9/presentation-isln-plateformes"
+                                href="https://view.genial.ly/60ef039c01f7650d996dfa9f/presentation-isln-differents-organes-de-lecole"
                                 target="_blank"
                                 rel="noreferrer noopener"
                             >
@@ -188,6 +187,7 @@ Vue.use(IconsPlugin);
 
 import News from "./news.vue";
 import Birthdays from "./birthday.vue";
+import Emails from "./emails.vue";
 
 export default {
     data: function () {
@@ -215,6 +215,7 @@ export default {
     components: {
         News,
         Birthdays,
+        Emails
     }
 };
 </script>
@@ -224,10 +225,6 @@ export default {
     width: 1.5em;
     height: 1.5em;
 }
-
-/* a img {
-    width: 100%;
-} */
 
 .nologolink {
     font-size: 3rem;

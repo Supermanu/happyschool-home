@@ -51,9 +51,8 @@ export default {
                 this.birthdays = resp.data.results;
             });
     }
-}
+};
 </script>
 
 <style>
-
 </style>
