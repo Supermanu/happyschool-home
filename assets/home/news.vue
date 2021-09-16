@@ -20,6 +20,7 @@
 <template>
     <div>
         <b-card
+            v-show="!hide"
             :class="`p-1 mb-1 ${news.pinned ? 'pinned': ''}`"
             no-body
         >
@@ -31,31 +32,135 @@
             </b-card-sub-title>
             <b-card-body class="text-justify">
                 <span v-html="news.text" />
+                <b-btn
+                    v-if="$store.state.canAddNews"
+                    v-b-modal="`new-${'id' in news ? news.id : 'new'}`"
+                >
+                    <b-icon icon="pencil" />
+                    Modifier
+                </b-btn>
+                <b-btn
+                    v-if="$store.state.canAddNews"
+                    variant="danger"
+                    @click="$emit('remove')"
+                >
+                    <b-icon icon="trash" />
+                    Supprimer
+                </b-btn>
             </b-card-body>
         </b-card>
+        <b-modal
+            :id="`new-${'id' in news ? news.id : 'new'}`"
+            cancel-title="Annuler"
+            @ok="sendData"
+        >
+            <b-form-group>
+                <b-form-checkbox v-model="pinned">
+                    Épingler le message ?
+                </b-form-checkbox>
+            </b-form-group>
+            <b-form-group
+                label="Titre du message"
+            >
+                <b-input v-model="title" />
+            </b-form-group>
+            <b-form-group>
+                <quill-editor
+                    v-model="text"
+                    :options="editorOptions"
+                />
+            </b-form-group>
+        </b-modal>
     </div>
 </template>
 
 <script>
+import axios from "axios";
+
 import Moment from "moment";
 Moment.locale("fr");
 
+import {quillEditor} from "vue-quill-editor";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+
+const token = { xsrfCookieName: "csrftoken", xsrfHeaderName: "X-CSRFToken"};
+
 export default {
     props: {
+        hide: {
+            type: Boolean,
+            default: false,
+        },
         news: {
             type: Object,
             default: () => {
                 return {
-                    title: "Titre",
-                    text: "Le texte de la nouvelle."
+                    title: "",
+                    text: ""
                 };
             }
+        }
+    },
+    data: function () {
+        return {
+            title: "",
+            pinned: false,
+            text: "",
+            editorOptions: {
+                modules: {
+                    toolbar: [
+                        ["bold", "italic", "underline", "strike"],
+                        ["blockquote"],
+                        [{ "list": "ordered"}, { "list": "bullet" }],
+                        [{ "indent": "-1"}, { "indent": "+1" }],
+                        [{ "align": [] }],
+                        ["clean"]
+                    ]
+                },
+                placeholder: ""
+            },
+        };
+    },
+    methods: {
+        sendData: function () {
+            const isNew = !("id" in this.news);
+            const send = isNew ? axios.post : axios.put;
+            const url = `/home/api/news/${isNew ? "" : this.news.id + "/"}`;
+            send(url, {
+                title: this.title,
+                text: this.text,
+                pinned: this.pinned,
+            }, token)
+                .then(resp => {
+                    this.$emit("update", resp.data);
+                    if (isNew) {
+                        this.title = "";
+                        this.text = "";
+                        this.pinned = false;
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.$bvToast.toast("Une erreur est survenue lors de l'envoi des données.",
+                        {
+                            variant: "danger"
+                        });
+                });
         }
     },
     computed: {
         datetime: function () {
             return Moment(this.news.datetime_update).calendar();
         }
+    },
+    mounted: function () {
+        this.title = this.news.title;
+        this.text = this.news.text;
+        this.pinned = this.news.pinned;
+    },
+    components: {
+        quillEditor,
     }
 };
 </script>

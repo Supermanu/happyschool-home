@@ -60,6 +60,7 @@ class HomeView(
         context = super().get_context_data()
         context['menu'] = json.dumps(get_menu(self.request, "home"))
         context['filters'] = json.dumps(self.filters)
+        context["can_add_news"] = json.dumps(self.request.user.has_perm("home.add_homenewsmodel"))
         context['settings'] = json.dumps((HomeSettingsSerializer(get_settings()).data))
 
         return context

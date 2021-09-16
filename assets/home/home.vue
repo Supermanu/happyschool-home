@@ -32,11 +32,32 @@
                             :teaching="teaching"
                         />
                     </b-row>
-                    <news
-                        v-for="n in news"
-                        :key="n.id"
-                        :news="n"
-                    />
+                    <b-row>
+                        <b-col>
+                            <b-btn
+                                v-if="$store.state.canAddNews"
+                                variant="success"
+                                v-b-modal.new-new
+                                class="mb-1"
+                            >
+                                <b-icon icon="plus" />
+                                Ajouter une nouvelle
+                            </b-btn>
+                        </b-col>
+                    </b-row>
+                    <b-overlay :show="loadingNews">
+                        <news
+                            :hide="true"
+                            @update="createNews"
+                        />
+                        <news
+                            v-for="(n, index) in news"
+                            :key="n.id"
+                            :news="n"
+                            @update="updateNews(index, $event)"
+                            @remove="removeNews(index)"
+                        />
+                    </b-overlay>
                 </b-col>
                 <b-col
                     cols="12"
@@ -195,10 +216,13 @@ import News from "./news.vue";
 import Birthdays from "./birthday.vue";
 import Emails from "./emails.vue";
 
+const token = { xsrfCookieName: "csrftoken", xsrfHeaderName: "X-CSRFToken"};
+
 export default {
     data: function () {
         return {
-            news: []
+            news: [],
+            loadingNews: false,
         };
     },
     computed: {
@@ -212,11 +236,55 @@ export default {
             }
         }
     },
+    methods: {
+        updateNews: function (newsIndex, data) {
+            this.news.splice(newsIndex, 1, data);
+        },
+        createNews: function () {
+            this.getNews();
+        },
+        removeNews: function (newsIndex) {
+            this.$bvModal.msgBoxConfirm("Êtes-vous sûr de vouloir supprimer cette nouvelle ?", {
+                title: "Confirmation",
+                size: "sm",
+                buttonSize: "sm",
+                okVariant: "danger",
+                okTitle: "Oui",
+                cancelTitle: "Non",
+                footerClass: "p-2",
+                hideHeaderClose: false,
+                centered: true
+            })
+                .then(resp => {
+                    if (resp) {
+                        axios.delete(`/home/api/news/${this.news[newsIndex].id}/`, token)
+                            .then(() => {
+                                this.getNews();
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        getNews: function () {
+            this.loadingNews = true;
+            axios.get("/home/api/news/")
+                .then(resp => {
+                    this.loadingNews = false;
+                    this.news = resp.data.results;
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.loadingNews = false;
+                });
+        }
+    },
     mounted: function () {
-        axios.get("/home/api/news/")
-            .then(resp => {
-                this.news = resp.data.results;
-            });
+        this.getNews();
     },
     components: {
         News,

@@ -26,5 +26,7 @@ export default new Vuex.Store({
     state: {
         // eslint-disable-next-line no-undef
         settings: settings,
+        // eslint-disable-next-line no-undef
+        canAddNews: canAddNews,
     }
 });
