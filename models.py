@@ -18,14 +18,13 @@
 # along with HappySchool.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.db import models
-from django.contrib.postgres.fields import JSONField
 
 from core.models import TeachingModel
 
 
 class HomeSettingsModel(models.Model):
     teachings = models.ManyToManyField(TeachingModel, default=None)
-    layout = JSONField("Layout of the home page", null=True)
+    layout = models.JSONField("Layout of the home page", null=True)
 
 
 class HomeNewsModel(models.Model):
