@@ -21,7 +21,7 @@ import Vue from "vue";
 
 import store from "../home/store.js";
 import router from "../home/router.js";
-import Menu from "assets/common/menu.vue";
+import Menu from "assets/common/menu_bar.vue";
 
 new Vue({
     el: "#vue-app",

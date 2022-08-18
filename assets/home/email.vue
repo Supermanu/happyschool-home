@@ -2,7 +2,9 @@
     <b-container>
         <b-row>
             <b-col>
-                <b-btn to="/">Retour</b-btn>
+                <b-btn to="/">
+                    Retour
+                </b-btn>
             </b-col>
         </b-row>
         <b-row>
