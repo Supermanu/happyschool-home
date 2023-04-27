@@ -68,59 +68,32 @@
                         no-body
                         class="mb-2"
                     >
-                        <b-card-body>
-                            <b-icon
-                                icon="question-circle"
-                                class="question"
-                                variant="primary"
-                            />
-                            Comment s'y retrouver dans l'organisation de l'école ?
-                            <br>
-                            <a
-                                href="https://view.genial.ly/60655e69ccc9790cde59cada/presentation-isln-organigramme"
-                                target="_blank"
-                                rel="noreferrer noopener"
+                        <b-list-group flush>
+                            <b-list-group-item>
+                                <strong>
+                                    Prochains événements
+                                </strong>
+                            </b-list-group-item>
+                            <b-list-group-item
+                                v-for="(event, index) in events"
+                                :key="index"
                             >
-                                <b-icon icon="link45deg" />Organigramme de l'Institut Saint-Louis
-                            </a>
-                        </b-card-body>
-                    </b-card>
-                    <b-card
-                        no-body
-                        class="mb-2"
-                    >
-                        <b-card-body>
-                            <b-icon
-                                icon="question-circle"
-                                class="question"
-                                variant="primary"
-                            />
-                            Plateformes : À qui s'adresser en cas de besoin ?
-                            <br>
-                            <a
-                                href="https://view.genial.ly/5ffdaf1608ab8e3755b3b9b9/presentation-isln-plateformes"
-                                target="_blank"
-                                rel="noreferrer noopener"
-                            >
-                                <b-icon icon="link45deg" />Les plateformes numériques à l'Institut Saint-Louis
-                            </a>
-                        </b-card-body>
-                    </b-card>
-                    <b-card no-body>
-                        <b-card-body>
-                            <b-icon
-                                icon="question-circle"
-                                class="question"
-                                variant="primary"
-                            />
-                            <a
-                                href="https://view.genial.ly/60ef039c01f7650d996dfa9f/presentation-isln-differents-organes-de-lecole"
-                                target="_blank"
-                                rel="noreferrer noopener"
-                            >
-                                <b-icon icon="link45deg" />Les différents organes de l'école
-                            </a>
-                        </b-card-body>
+                                <span
+                                    v-if="event.begin === event.end"
+                                    class="date"
+                                >
+                                    Le {{ event.begin }}
+                                </span>
+                                <span
+                                    v-else
+                                    class="date"
+                                >
+                                    Du {{ event.begin }} au {{ event.end }}
+                                </span>
+                                <br>
+                                {{ event.name }}
+                            </b-list-group-item>
+                        </b-list-group>
                     </b-card>
                 </b-col>
             </b-row>
@@ -222,6 +195,7 @@ export default {
     data: function () {
         return {
             news: [],
+            events: [],
             loadingNews: false,
         };
     },
@@ -281,10 +255,17 @@ export default {
                     console.log(err);
                     this.loadingNews = false;
                 });
+        },
+        getCalendar: function () {
+            axios.get("/core/api/calendar/")
+                .then((resp) => {
+                    this.events = resp.data.results.slice(0, 5);
+                });
         }
     },
     mounted: function () {
         this.getNews();
+        this.getCalendar();
     },
     components: {
         News,
@@ -303,5 +284,10 @@ export default {
 .nologolink {
     font-size: 3rem;
     text-decoration: underline;
+}
+
+.date {
+    color: gray;
+    font-style: italic;
 }
 </style>
