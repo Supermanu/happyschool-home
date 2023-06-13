@@ -95,8 +95,9 @@
                             </b-list-group-item>
                             <b-list-group-item>
                                 <a
-                                    href="https://www.isln.be/wp-content/uploads/calendrier.pdf"
-                                    target="blank"
+                                    href="https://www.isln.be/actualite/calendrier/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                 >
                                     <b-icon icon="box-arrow-up-right" />
                                     Tous les événements
