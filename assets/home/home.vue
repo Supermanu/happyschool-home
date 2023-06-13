@@ -93,6 +93,15 @@
                                 <br>
                                 {{ event.name }}
                             </b-list-group-item>
+                            <b-list-group-item>
+                                <a
+                                    href="https://www.isln.be/wp-content/uploads/calendrier.pdf"
+                                    target="blank"
+                                >
+                                    <b-icon icon="box-arrow-up-right" />
+                                    Tous les événements
+                                </a>
+                            </b-list-group-item>
                         </b-list-group>
                     </b-card>
                 </b-col>
