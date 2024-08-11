@@ -1,11 +1,16 @@
 {% extends "core/base_vue.html" %}
 
+{% load vite %}
+
 {% block header %}
 <title>HappySchool : Accueil </title>
 
+
+{% vite %}
+{% vite "home/js/home.js" %}
+
 {% endblock %}
 {% block content %}
-{% load render_bundle from webpack_loader %}
 
 <script>
     const current_app = "home";
@@ -14,7 +19,5 @@
     const canAddNews = {{ can_add_news|safe }};
 </script>
 <div id="vue-app"></div>
-
-{% render_bundle "home" %}
 
 {% endblock %}

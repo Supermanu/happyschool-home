@@ -17,24 +17,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with Happyschool.  If not, see <http://www.gnu.org/licenses/>.
 
-import Vue from "vue";
-import VueRouter from "vue-router";
 
-Vue.use(VueRouter);
+import { defineStore } from "pinia";
 
-import Home from "./home.vue";
-import Email from "./email.vue";
-
-export default new VueRouter({
-    routes: [
-        {
-            path: "/",
-            component: Home,
-        },
-        {
-            path: "/email/:id/",
-            component: Email,
-            props: true,
-        }
-    ]
+export const homeStore = defineStore("home", {
+    state: () => ({
+        // eslint-disable-next-line no-undef
+        settings: settings,
+        // eslint-disable-next-line no-undef
+        canAddNews: canAddNews,
+    }),
 });

@@ -17,16 +17,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with Happyschool.  If not, see <http://www.gnu.org/licenses/>.
 
-import Vue from "vue";
-import Vuex from "vuex";
+import Home from "../Home.vue";
+import Email from "../Email.vue";
 
-Vue.use(Vuex);
+import { createRouter, createWebHashHistory } from "vue-router";
 
-export default new Vuex.Store({
-    state: {
-        // eslint-disable-next-line no-undef
-        settings: settings,
-        // eslint-disable-next-line no-undef
-        canAddNews: canAddNews,
-    }
+const router = createRouter({
+    routes: [
+        {
+            path: "/",
+            component: Home,
+        },
+        {
+            path: "/email/:id/",
+            component: Email,
+            props: true,
+        }
+    ],
+    history: createWebHashHistory(),
 });
+
+export default router;

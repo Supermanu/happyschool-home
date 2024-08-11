@@ -35,7 +35,7 @@
                     <b-row>
                         <b-col>
                             <b-btn
-                                v-if="$store.state.canAddNews"
+                                v-if="store.canAddNews"
                                 variant="success"
                                 v-b-modal.new-new
                                 class="mb-1"
@@ -119,7 +119,7 @@
                             rel="noreferrer noopener"
                         >
                             <img
-                                src="/static/img/logo_moodle.png"
+                                :src="'/static/home/img/logo_moodle.png'"
                                 alt="Moodle logo"
                                 class="w-100"
                             >
@@ -137,7 +137,7 @@
                             rel="noreferrer noopener"
                         >
                             <img
-                                src="/static/img/logo_bulrezo.png"
+                                :src="'/static/home/img/logo_bulrezo.png'"
                                 alt="bulrézo logo"
                                 class="w-100"
                             >
@@ -155,7 +155,7 @@
                             rel="noreferrer noopener"
                         >
                             <img
-                                src="/static/img/logo_untis.png"
+                                :src="'/static/home/img/logo_untis.png'"
                                 alt="WebUntis logo"
                                 class="w-100"
                             >
@@ -173,7 +173,7 @@
                             rel="noreferrer noopener"
                         >
                             <img
-                                src="/static/img/logo_it-school.png"
+                                :src="'/static/home/img/logo_it-school.png'"
                                 alt="it-school logo"
                                 class="w-100"
                             >
@@ -195,9 +195,11 @@ import axios from "axios";
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 
-import News from "./news.vue";
-import Birthdays from "./birthday.vue";
-import Emails from "./emails.vue";
+import { homeStore } from "./stores/index.js";
+
+import News from "./News.vue";
+import Birthdays from "./Birthday.vue";
+import Emails from "./Emails.vue";
 
 const token = { xsrfCookieName: "csrftoken", xsrfHeaderName: "X-CSRFToken"};
 
@@ -207,6 +209,7 @@ export default {
             news: [],
             events: [],
             loadingNews: false,
+            store: homeStore(),
         };
     },
     computed: {

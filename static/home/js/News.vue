@@ -33,14 +33,14 @@
             <b-card-body class="text-justify">
                 <span v-html="news.text" />
                 <b-btn
-                    v-if="$store.state.canAddNews"
+                    v-if="store.canAddNews"
                     v-b-modal="`new-${'id' in news ? news.id : 'new'}`"
                 >
                     <b-icon icon="pencil" />
                     Modifier
                 </b-btn>
                 <b-btn
-                    v-if="$store.state.canAddNews"
+                    v-if="store.canAddNews"
                     variant="danger"
                     @click="$emit('remove')"
                 >
@@ -65,9 +65,8 @@
                 <b-input v-model="title" />
             </b-form-group>
             <b-form-group>
-                <quill-editor
+                <text-editor
                     v-model="text"
-                    :options="editorOptions"
                 />
             </b-form-group>
         </b-modal>
@@ -80,9 +79,9 @@ import axios from "axios";
 import Moment from "moment";
 Moment.locale("fr");
 
-import {quillEditor} from "vue-quill-editor";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
+import TextEditor from "@s:core/js/common/text_editor.vue";
+
+import { homeStore } from "./stores/index.js";
 
 const token = { xsrfCookieName: "csrftoken", xsrfHeaderName: "X-CSRFToken"};
 
@@ -107,19 +106,7 @@ export default {
             title: "",
             pinned: false,
             text: "",
-            editorOptions: {
-                modules: {
-                    toolbar: [
-                        ["bold", "italic", "underline", "strike"],
-                        ["blockquote"],
-                        [{ "list": "ordered"}, { "list": "bullet" }],
-                        [{ "indent": "-1"}, { "indent": "+1" }],
-                        [{ "align": [] }],
-                        ["clean"]
-                    ]
-                },
-                placeholder: ""
-            },
+            store: homeStore(),
         };
     },
     methods: {
@@ -160,7 +147,7 @@ export default {
         this.pinned = this.news.pinned;
     },
     components: {
-        quillEditor,
+        TextEditor,
     }
 };
 </script>
