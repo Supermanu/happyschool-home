@@ -19,33 +19,33 @@
 
 <template>
     <div>
-        <b-container>
-            <b-row>
-                <b-col
+        <BContainer>
+            <BRow>
+                <BCol
                     cols="12"
                     md="8"
                 >
-                    <b-row>
+                    <BRow>
                         <birthdays people="responsible" />
                         <birthdays
                             people="student"
                             :teaching="teaching"
                         />
-                    </b-row>
-                    <b-row>
-                        <b-col>
-                            <b-btn
+                    </BRow>
+                    <BRow>
+                        <BCol>
+                            <BButton
                                 v-if="store.canAddNews"
                                 variant="success"
                                 v-b-modal.new-new
                                 class="mb-1"
                             >
-                                <b-icon icon="plus" />
+                                <IBiPlus />
                                 Ajouter une nouvelle
-                            </b-btn>
-                        </b-col>
-                    </b-row>
-                    <b-overlay :show="loadingNews">
+                            </BButton>
+                        </BCol>
+                    </BRow>
+                    <BOverlay :show="loadingNews">
                         <news
                             :hide="true"
                             @update="createNews"
@@ -57,24 +57,24 @@
                             @update="updateNews(index, $event)"
                             @remove="removeNews(index)"
                         />
-                    </b-overlay>
-                </b-col>
-                <b-col
+                    </BOverlay>
+                </BCol>
+                <BCol
                     cols="12"
                     md="4"
                 >
                     <emails />
-                    <b-card
+                    <BCard
                         no-body
                         class="mb-2"
                     >
-                        <b-list-group flush>
-                            <b-list-group-item>
+                        <BListGroup flush>
+                            <BListGroupItem>
                                 <strong>
                                     Prochains événements
                                 </strong>
-                            </b-list-group-item>
-                            <b-list-group-item
+                            </BListGroupItem>
+                            <BListGroupItem
                                 v-for="(event, index) in events"
                                 :key="index"
                             >
@@ -92,23 +92,23 @@
                                 </span>
                                 <br>
                                 {{ event.name }}
-                            </b-list-group-item>
-                            <b-list-group-item>
+                            </BListGroupItem>
+                            <BListGroupItem>
                                 <a
                                     href="https://www.isln.be/actualite/calendrier/"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    <b-icon icon="box-arrow-up-right" />
+                                    <IBiBoxArrowUpRight />
                                     Tous les événements
                                 </a>
-                            </b-list-group-item>
-                        </b-list-group>
-                    </b-card>
-                </b-col>
-            </b-row>
-            <b-row class="text-center">
-                <b-col
+                            </BListGroupItem>
+                        </BListGroup>
+                    </BCard>
+                </BCol>
+            </BRow>
+            <BRow class="text-center">
+                <BCol
                     cols="12"
                     md="3"
                 >
@@ -125,8 +125,8 @@
                             >
                         </a>
                     </div>
-                </b-col>
-                <b-col
+                </BCol>
+                <BCol
                     cols="12"
                     md="3"
                 >
@@ -143,8 +143,8 @@
                             >
                         </a>
                     </div>
-                </b-col>
-                <b-col
+                </BCol>
+                <BCol
                     cols="12"
                     md="3"
                 >
@@ -161,8 +161,8 @@
                             >
                         </a>
                     </div>
-                </b-col>
-                <b-col
+                </BCol>
+                <BCol
                     cols="12"
                     md="3"
                 >
@@ -179,23 +179,18 @@
                             >
                         </a>
                     </div>
-                </b-col>
-            </b-row>
-        </b-container>
+                </BCol>
+            </BRow>
+        </BContainer>
     </div>
 </template>
 
 <script>
-import Vue from "vue";
-import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
-import "bootstrap-vue/dist/bootstrap-vue.css";
-
 import axios from "axios";
 
-Vue.use(BootstrapVue);
-Vue.use(IconsPlugin);
-
 import { homeStore } from "./stores/index.js";
+
+import { useModalController } from "bootstrap-vue-next";
 
 import News from "./News.vue";
 import Birthdays from "./Birthday.vue";
@@ -204,6 +199,10 @@ import Emails from "./Emails.vue";
 const token = { xsrfCookieName: "csrftoken", xsrfHeaderName: "X-CSRFToken"};
 
 export default {
+    setup: function () {
+        const { confirm } = useModalController();
+        return { confirm };
+    },
     data: function () {
         return {
             news: [],
@@ -231,16 +230,19 @@ export default {
             this.getNews();
         },
         removeNews: function (newsIndex) {
-            this.$bvModal.msgBoxConfirm("Êtes-vous sûr de vouloir supprimer cette nouvelle ?", {
-                title: "Confirmation",
-                size: "sm",
-                buttonSize: "sm",
-                okVariant: "danger",
-                okTitle: "Oui",
-                cancelTitle: "Non",
-                footerClass: "p-2",
-                hideHeaderClose: false,
-                centered: true
+            this.confirm({
+                props: {
+                    body: "Êtes-vous sûr de vouloir supprimer cette nouvelle ?",
+                    title: "Confirmation",
+                    size: "sm",
+                    buttonSize: "sm",
+                    okVariant: "danger",
+                    okTitle: "Oui",
+                    cancelTitle: "Non",
+                    footerClass: "p-2",
+                    hideHeaderClose: false,
+                    centered: true,
+                }
             })
                 .then(resp => {
                     if (resp) {

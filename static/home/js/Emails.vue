@@ -1,75 +1,92 @@
+<!-- This file is part of Happyschool. -->
+<!--  -->
+<!-- Happyschool is the legal property of its developers, whose names -->
+<!-- can be found in the AUTHORS file distributed with this source -->
+<!-- distribution. -->
+<!--  -->
+<!-- Happyschool is free software: you can redistribute it and/or modify -->
+<!-- it under the terms of the GNU Affero General Public License as published by -->
+<!-- the Free Software Foundation, either version 3 of the License, or -->
+<!-- (at your option) any later version. -->
+<!--  -->
+<!-- Happyschool is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the -->
+<!-- GNU Affero General Public License for more details. -->
+<!--  -->
+<!-- You should have received a copy of the GNU Affero General Public License -->
+<!-- along with Happyschool.  If not, see <http://www.gnu.org/licenses/>. -->
+
 <template>
     <div>
-        <b-card
+        <BCard
             no-body
             class="mb-1"
         >
-            <b-list-group flush>
-                <b-list-group-item>
+            <BListGroup flush>
+                <BListGroupItem>
                     <strong>Derniers messages</strong>
-                    <b-btn
+                    <BButton
                         size="sm"
                         variant="outline-primary"
+                        class="ms-1"
                         v-b-toggle.searchemails
                     >
-                        <b-icon
-                            icon="search"
-                        />
-                    </b-btn>
-                </b-list-group-item>
-                <b-collapse id="searchemails">
-                    <b-list-group-item>
-                        <b-input-group>
+                        <IBiSearch />
+                    </BButton>
+                </BListGroupItem>
+                <BCollapse id="searchemails">
+                    <BListGroupItem>
+                        <BInputGroup>
                             <template #prepend>
-                                <b-input-group-text>
-                                    <b-icon icon="search" />
-                                </b-input-group-text>
+                                <BInputGroupText>
+                                    <IBiSearch />
+                                </BInputGroupText>
                             </template>
-                            <b-form-input
+                            <BFormInput
                                 v-model="search"
                                 @input="getEmails"
                                 placeholder="Rechercher un courriel"
                             />
-                        </b-input-group>
-                    </b-list-group-item>
-                </b-collapse>
-                <b-skeleton-wrapper :loading="loading">
+                        </BInputGroup>
+                    </BListGroupItem>
+                </BCollapse>
+                <BPlaceholderWrapper :loading="loading">
                     <template #loading>
-                        <b-list-group-item>
-                            <b-skeleton width="70%" />
-                        </b-list-group-item>
-                        <b-list-group-item>
-                            <b-skeleton width="30%" />
-                        </b-list-group-item>
-                        <b-list-group-item>
-                            <b-skeleton width="50%" />
-                        </b-list-group-item>
-                        <b-list-group-item>
-                            <b-skeleton width="80%" />
-                        </b-list-group-item>
-                        <b-list-group-item>
-                            <b-skeleton width="70%" />
-                        </b-list-group-item>
+                        <BListGroupItem>
+                            <BPlaceholder width="70%" />
+                        </BListGroupItem>
+                        <BListGroupItem>
+                            <BPlaceholder width="30%" />
+                        </BListGroupItem>
+                        <BListGroupItem>
+                            <BPlaceholder width="50%" />
+                        </BListGroupItem>
+                        <BListGroupItem>
+                            <BPlaceholder width="80%" />
+                        </BListGroupItem>
+                        <BListGroupItem>
+                            <BPlaceholder width="70%" />
+                        </BListGroupItem>
                     </template>
-                    <b-list-group-item
+                    <BListGroupItem
                         v-for="email in emails"
                         :key="email.id"
                         :to="`/email/${email.id}/`"
-                        v-b-tooltip.hover
-                        :title="email.datetime_created.slice(0, 10)"
+                        v-b-tooltip.hover="email.datetime_created.slice(0, 10)"
                     >
                         {{ email.subject }}
-                    </b-list-group-item>
-                </b-skeleton-wrapper>
-                <b-list-group-item>
-                    <b-pagination
+                    </BListGroupItem>
+                </BPlaceholderWrapper>
+                <BListGroupItem>
+                    <BPagination
                         v-model="currentPage"
                         :total-rows="emailCount"
                         per-page="5"
                     />
-                </b-list-group-item>
-            </b-list-group>
-        </b-card>
+                </BListGroupItem>
+            </BListGroup>
+        </BCard>
     </div>
 </template>
 

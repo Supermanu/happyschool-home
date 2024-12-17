@@ -1,29 +1,50 @@
+<!-- This file is part of Happyschool. -->
+<!--  -->
+<!-- Happyschool is the legal property of its developers, whose names -->
+<!-- can be found in the AUTHORS file distributed with this source -->
+<!-- distribution. -->
+<!--  -->
+<!-- Happyschool is free software: you can redistribute it and/or modify -->
+<!-- it under the terms of the GNU Affero General Public License as published by -->
+<!-- the Free Software Foundation, either version 3 of the License, or -->
+<!-- (at your option) any later version. -->
+<!--  -->
+<!-- Happyschool is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the -->
+<!-- GNU Affero General Public License for more details. -->
+<!--  -->
+<!-- You should have received a copy of the GNU Affero General Public License -->
+<!-- along with Happyschool.  If not, see <http://www.gnu.org/licenses/>. -->
+
 <template>
-    <b-col
+    <BCol
         v-if="birthdays.length > 0"
         cols="6"
     >
-        <b-card class="mb-1">
-            <b-card-sub-title>
+        <BCard class="mb-1">
+            <BCardSubtitle>
                 Anniversaire du jour
-            </b-card-sub-title>
-            <b-card-text>
-                <b-carousel
+            </BCardSubtitle>
+            <BCardText>
+                <BCarousel
                     :interval="3000"
                     no-hover-pause
+                    ride="carousel"
                 >
-                    <b-carousel-slide
+                    <BCarouselSlide
                         v-for="bd in birthdays"
                         :key="bd.name"
+                        background="transparent"
                     >
                         <template #img>
                             {{ bd.name }}
                         </template>
-                    </b-carousel-slide>
-                </b-carousel>
-            </b-card-text>
-        </b-card>
-    </b-col>
+                    </BCarouselSlide>
+                </BCarousel>
+            </BCardText>
+        </BCard>
+    </BCol>
 </template>
 
 <script>

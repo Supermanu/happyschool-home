@@ -19,56 +19,57 @@
 
 <template>
     <div>
-        <b-card
+        <BCard
             v-show="!hide"
             :class="`p-1 mb-1 ${news.pinned ? 'pinned': ''}`"
             no-body
         >
-            <b-card-title>
+            <BCardTitle>
                 {{ news.title }}
-            </b-card-title>
-            <b-card-sub-title>
+            </BCardTitle>
+            <BCardSubtitle>
                 {{ datetime }}
-            </b-card-sub-title>
-            <b-card-body class="text-justify">
+            </BCardSubtitle>
+            <BCardBody class="text-justify">
                 <span v-html="news.text" />
-                <b-btn
+                <BButton
                     v-if="store.canAddNews"
                     v-b-modal="`new-${'id' in news ? news.id : 'new'}`"
                 >
-                    <b-icon icon="pencil" />
+                    <IBiPencil />
                     Modifier
-                </b-btn>
-                <b-btn
+                </BButton>
+                <BButton
                     v-if="store.canAddNews"
                     variant="danger"
+                    class="ms-1"
                     @click="$emit('remove')"
                 >
-                    <b-icon icon="trash" />
+                    <IBiTrash />
                     Supprimer
-                </b-btn>
-            </b-card-body>
-        </b-card>
+                </BButton>
+            </BCardBody>
+        </BCard>
         <b-modal
             :id="`new-${'id' in news ? news.id : 'new'}`"
             cancel-title="Annuler"
             @ok="sendData"
         >
-            <b-form-group>
-                <b-form-checkbox v-model="pinned">
+            <BFormGroup>
+                <BFormCheckbox v-model="pinned">
                     Épingler le message ?
-                </b-form-checkbox>
-            </b-form-group>
-            <b-form-group
+                </BFormCheckbox>
+            </BFormGroup>
+            <BFormGroup
                 label="Titre du message"
             >
-                <b-input v-model="title" />
-            </b-form-group>
-            <b-form-group>
+                <BFormInput v-model="title" />
+            </BFormGroup>
+            <BFormGroup>
                 <text-editor
                     v-model="text"
                 />
-            </b-form-group>
+            </BFormGroup>
         </b-modal>
     </div>
 </template>
@@ -86,6 +87,7 @@ import { homeStore } from "./stores/index.js";
 const token = { xsrfCookieName: "csrftoken", xsrfHeaderName: "X-CSRFToken"};
 
 export default {
+    emits: ["remove"],
     props: {
         hide: {
             type: Boolean,
