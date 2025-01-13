@@ -80,6 +80,8 @@ import axios from "axios";
 import Moment from "moment";
 Moment.locale("fr");
 
+import { useToastController } from "bootstrap-vue-next";
+
 import TextEditor from "@s:core/js/common/text_editor.vue";
 
 import { homeStore } from "./stores/index.js";
@@ -87,6 +89,10 @@ import { homeStore } from "./stores/index.js";
 const token = { xsrfCookieName: "csrftoken", xsrfHeaderName: "X-CSRFToken"};
 
 export default {
+    setup: function () {
+        const { show } = useToastController();
+        return { show };
+    },
     emits: ["remove"],
     props: {
         hide: {
@@ -131,10 +137,10 @@ export default {
                 })
                 .catch(err => {
                     console.log(err);
-                    this.$bvToast.toast("Une erreur est survenue lors de l'envoi des données.",
-                        {
-                            variant: "danger"
-                        });
+                    this.show({props: {
+                        body: "Une erreur est survenue lors de l'envoi des données.",
+                        variant: "danger"
+                    }});
                 });
         }
     },
