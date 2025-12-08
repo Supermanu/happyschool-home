@@ -137,10 +137,10 @@ export default {
                 })
                 .catch(err => {
                     console.log(err);
-                    this.show({props: {
+                    this.show({
                         body: "Une erreur est survenue lors de l'envoi des données.",
                         variant: "danger"
-                    }});
+                    });
                 });
         }
     },

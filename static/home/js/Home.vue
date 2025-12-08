@@ -150,7 +150,7 @@
                 >
                     <div class="px-5 px-md-0">
                         <a
-                            href="https://ajax.webuntis.com/WebUntis/?school=Institut+Saint-Louis#/basic/login"
+                            href="https://institut-saint-louis.webuntis.com/"
                             target="_blank"
                             rel="noreferrer noopener"
                         >
@@ -200,8 +200,8 @@ const token = { xsrfCookieName: "csrftoken", xsrfHeaderName: "X-CSRFToken"};
 
 export default {
     setup: function () {
-        const { confirm } = useModalController();
-        return { confirm };
+        const { create } = useModalController();
+        return { create };
     },
     data: function () {
         return {
@@ -230,22 +230,20 @@ export default {
             this.getNews();
         },
         removeNews: function (newsIndex) {
-            this.confirm({
-                props: {
-                    body: "Êtes-vous sûr de vouloir supprimer cette nouvelle ?",
-                    title: "Confirmation",
-                    size: "sm",
-                    buttonSize: "sm",
-                    okVariant: "danger",
-                    okTitle: "Oui",
-                    cancelTitle: "Non",
-                    footerClass: "p-2",
-                    hideHeaderClose: false,
-                    centered: true,
-                }
+            this.create({
+                body: "Êtes-vous sûr de vouloir supprimer cette nouvelle ?",
+                title: "Confirmation",
+                size: "sm",
+                buttonSize: "sm",
+                okVariant: "danger",
+                okTitle: "Oui",
+                cancelTitle: "Non",
+                footerClass: "p-2",
+                hideHeaderClose: false,
+                centered: true,
             })
                 .then(resp => {
-                    if (resp) {
+                    if (resp.ok) {
                         axios.delete(`/home/api/news/${this.news[newsIndex].id}/`, token)
                             .then(() => {
                                 this.getNews();
