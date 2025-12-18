@@ -115,21 +115,21 @@ export default {
             this.searchId += 1;
             const currentSearch = this.searchId;
             axios.get(`/mail_notification/api/notif/?page_size=5&page=${this.currentPage}&search=${this.search}`)
-                .then(resp => {
+                .then((resp) => {
                     if (this.searchId !== currentSearch)
                         return;
                     this.emails = resp.data.results;
                     this.emailCount = resp.data.count;
                     this.loading = false;
                 })
-                .catch(err => {
+                .catch((err) => {
                     this.loading = false;
                     console.log(err);
                 });
-        }
+        },
     },
     mounted: function () {
         this.getEmails();
-    }
+    },
 };
 </script>

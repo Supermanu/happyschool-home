@@ -32,7 +32,7 @@ const router = createRouter({
             path: "/email/:id/",
             component: Email,
             props: true,
-        }
+        },
     ],
     history: createWebHashHistory(),
 });

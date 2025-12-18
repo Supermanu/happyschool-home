@@ -54,24 +54,24 @@ export default {
     props: {
         teaching: {
             type: String,
-            default: ""
+            default: "",
         },
         people: {
             type: String,
-            default: "student"
-        }
+            default: "student",
+        },
     },
     data: function () {
         return {
-            birthdays: []
+            birthdays: [],
         };
     },
     mounted: function () {
         axios.get(`/core/api/birthday/?people=${this.people}&teaching=${this.teaching}`)
-            .then(resp => {
+            .then((resp) => {
                 this.birthdays = resp.data.results;
             });
-    }
+    },
 };
 </script>
 

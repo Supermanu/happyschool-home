@@ -77,8 +77,7 @@
 <script>
 import axios from "axios";
 
-import Moment from "moment";
-Moment.locale("fr");
+import { DateTime } from "luxon";
 
 import { useToastController } from "bootstrap-vue-next";
 
@@ -86,7 +85,7 @@ import TextEditor from "@s:core/js/common/text_editor.vue";
 
 import { homeStore } from "./stores/index.js";
 
-const token = { xsrfCookieName: "csrftoken", xsrfHeaderName: "X-CSRFToken"};
+const token = { xsrfCookieName: "csrftoken", xsrfHeaderName: "X-CSRFToken" };
 
 export default {
     setup: function () {
@@ -104,10 +103,10 @@ export default {
             default: () => {
                 return {
                     title: "",
-                    text: ""
+                    text: "",
                 };
-            }
-        }
+            },
+        },
     },
     data: function () {
         return {
@@ -127,7 +126,7 @@ export default {
                 text: this.text,
                 pinned: this.pinned,
             }, token)
-                .then(resp => {
+                .then((resp) => {
                     this.$emit("update", resp.data);
                     if (isNew) {
                         this.title = "";
@@ -135,19 +134,19 @@ export default {
                         this.pinned = false;
                     }
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log(err);
                     this.show({
                         body: "Une erreur est survenue lors de l'envoi des données.",
-                        variant: "danger"
+                        variant: "danger",
                     });
                 });
-        }
+        },
     },
     computed: {
         datetime: function () {
-            return Moment(this.news.datetime_update).calendar();
-        }
+            return DateTime.fromISO(this.news.datetime_update).toLocaleString();
+        },
     },
     mounted: function () {
         this.title = this.news.title;
@@ -156,7 +155,7 @@ export default {
     },
     components: {
         TextEditor,
-    }
+    },
 };
 </script>
 

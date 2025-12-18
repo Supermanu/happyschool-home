@@ -50,8 +50,8 @@ export default {
     props: {
         id: {
             type: String,
-            default: "-1"
-        }
+            default: "-1",
+        },
     },
     data: function () {
         return {
@@ -62,10 +62,10 @@ export default {
     mounted: function () {
         this.loading = true;
         axios.get(`/mail_notification/api/notif/${this.id}`)
-            .then(resp => {
+            .then((resp) => {
                 this.email = resp.data;
                 this.loading = false;
             });
-    }
+    },
 };
 </script>

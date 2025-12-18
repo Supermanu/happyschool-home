@@ -196,7 +196,7 @@ import News from "./News.vue";
 import Birthdays from "./Birthday.vue";
 import Emails from "./Emails.vue";
 
-const token = { xsrfCookieName: "csrftoken", xsrfHeaderName: "X-CSRFToken"};
+const token = { xsrfCookieName: "csrftoken", xsrfHeaderName: "X-CSRFToken" };
 
 export default {
     setup: function () {
@@ -220,7 +220,7 @@ export default {
             } else {
                 return user_teaching[0];
             }
-        }
+        },
     },
     methods: {
         updateNews: function (newsIndex, data) {
@@ -242,29 +242,29 @@ export default {
                 hideHeaderClose: false,
                 centered: true,
             })
-                .then(resp => {
+                .then((resp) => {
                     if (resp.ok) {
                         axios.delete(`/home/api/news/${this.news[newsIndex].id}/`, token)
                             .then(() => {
                                 this.getNews();
                             })
-                            .catch(err => {
+                            .catch((err) => {
                                 console.log(err);
                             });
                     }
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log(err);
                 });
         },
         getNews: function () {
             this.loadingNews = true;
             axios.get("/home/api/news/")
-                .then(resp => {
+                .then((resp) => {
                     this.loadingNews = false;
                     this.news = resp.data.results;
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log(err);
                     this.loadingNews = false;
                 });
@@ -274,7 +274,7 @@ export default {
                 .then((resp) => {
                     this.events = resp.data.results.slice(0, 5);
                 });
-        }
+        },
     },
     mounted: function () {
         this.getNews();
@@ -283,8 +283,8 @@ export default {
     components: {
         News,
         Birthdays,
-        Emails
-    }
+        Emails,
+    },
 };
 </script>
 
