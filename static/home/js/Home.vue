@@ -79,7 +79,7 @@
                                 :key="index"
                             >
                                 <span
-                                    v-if="event.begin === event.end"
+                                    v-if="event.begin === event.end || !event.end"
                                     class="date"
                                 >
                                     Le {{ event.begin }}
